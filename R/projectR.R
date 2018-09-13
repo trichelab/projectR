@@ -1,3 +1,39 @@
+<<<<<<< HEAD
+#' @importFrom stats hclust kmeans prcomp
+setOldClass("kmeans")
+setOldClass("hclust")
+setOldClass("prcomp")
+
+#' @importFrom CoGAPS CoGAPS
+setOldClass("CoGAPS")
+
+#' @importFrom limma lmFit
+
+
+#' @title Projection function (Base)
+#'
+#' @description a function for the projection of new data into a previously defined feature space
+#' @param data a dataset to be projected into the pattern space
+#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#' @param Patterns a matrix of continous values with unique rownames to be projected
+#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
+#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @examples
+#' #
+#' # do not run, this will break the build.  Fix it instead.
+#' # 
+#' # projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+#'
+#' @export
+setGeneric("projectR", 
+           function(data, AnnotionObj, IDcol, Patterns, NP, full, model=NA) 
+           standardGeneric("projectR"))
+
+=======
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 #######################################################################################################################################
 
 #' @title Projection function (default)
@@ -13,11 +49,24 @@
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
+<<<<<<< HEAD
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+<<<<<<< HEAD
+=======
+#' # 
+#' # Do not run, will break the build.  Fix and then uncomment. 
+#' # 
+#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+>>>>>>> master
+#' @export
+
+=======
 # @import VGAM
 #' @import limma
 #' @import stats
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 
 projectR.default <- function(
   data=NA, # a dataset to be projected onto
@@ -77,9 +126,18 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
+<<<<<<< HEAD
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols",model="NonNegative")
 #' @import VGAM
+=======
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#' #               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' @import limma
+>>>>>>> master
 #' @import stats
 #' @import NMF
 
@@ -107,9 +165,15 @@ projectR.CoGAPS <- function(
   colnames(Design) <- colnames(dataM[[1]])
 
   if(model=="NonNegative"){
+<<<<<<< HEAD
+    Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
+  }else{
+    Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
+=======
     projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
   } else{
     projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
   }
   projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
   if(full==TRUE){
@@ -195,10 +259,13 @@ setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
-#'                              AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' # k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' # k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' # k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
+#' #                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import cluster
@@ -250,9 +317,12 @@ setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
-#'                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' #  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
+#' #                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import stats
@@ -310,10 +380,13 @@ setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-#'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' # pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' # r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+#' #  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
+#' #                         AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import stats
 
@@ -368,9 +441,12 @@ projectR.rotatoR <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-#'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+#' #  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
+#' #                                   AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import stats
